@@ -1,3 +1,4 @@
 [submodule "MABE2"]
 	path = source/MABE2
-	url = git@github.com:mercere99/MABE2.git
+    url = git@github.com:mercere99/MABE2.git
+    branch = eval-reNK
