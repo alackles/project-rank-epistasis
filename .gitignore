@@ -33,3 +33,4 @@
 
 # Data files
 data/*/*.csv
+data/*.csv
