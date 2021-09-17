@@ -11,7 +11,7 @@ import os
 from pathlib import Path 
 
 firstrep = 0
-lastrep = 100
+lastrep = 1
 kvals = [0, 1, 2, 4, 8]
 mabepath = "./third-party/MABE2/build/MABE"
 runpath = "./third-party/MABE2/settings/NKRank.mabe"
