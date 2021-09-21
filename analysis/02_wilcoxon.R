@@ -14,6 +14,7 @@ data_path <- paste(proj_path, "data/", sep="")
 
 #install.packages(dplyr)  #uncomment if tidyverse not installed
 library(dplyr)
+library(rstatix)
 
 # files to process
 datafile <- "merged_knockout.csv"
@@ -34,30 +35,25 @@ df[fac_cols] <- lapply(df[fac_cols], as.factor)
 # process the ranking
 
 df_ref <- df %>%
-  select(-c(ko_pos, score_KO)) %>%
   group_by(rep, K) %>%
-  distinct() 
+  select(-c(ko_pos, score_KO)) %>%
+  unique() %>%
+  mutate(rank_ref = rank(score_MT, ties.method="average"))
+df <- left_join(df, df_ref)
+
 
 # function for ranking Ks 
 
 rank_epistasis <- function(dframe, ko) {
-  this_ref <- filter(df_ref, mt_pos != ko) %>%
-    mutate(rank_ref = rank(score_MT, ties.method=c("average")))
-  df_new <- dframe %>% 
+  df <- dframe %>%
     group_by(rep, K) %>%
     filter(ko_pos == ko) %>%
-    mutate(rank_new = rank(score_KO, ties.method=c("average"))) %>%
+    mutate(rank_ref = rank(rank_ref, ties.method="average")) %>%   # because there is one fewer rank; we have to move everything up one
+    mutate(rank_new = rank(score_KO, ties.method="average")) %>%
+    wilcox_test()
     {.}
-  df_comp <- right_join(this_ref, df_new) %>%
-    select(-c(score_MT, score_KO, ko_pos)) %>%
-    group_by(rep, K) %>%
-    mutate(W=wilcox.test(x=rank_ref, y=rank_new, paired=TRUE)$statistic)
-  return(df_comp)
+  return(df)
 }
 
-df_re <- rank_epistasis(df, 0)
-for (i in 0:max(as.numeric(df_re$mt_pos))) {
-  W_compute <- rank_epistasis(df, i)
-  df_re <- right_join(df_re, W_compute)
-}
+df_re <- rank_epistasis(df, 1)
 
