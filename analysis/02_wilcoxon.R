@@ -42,18 +42,33 @@ df_ref <- df %>%
 df <- left_join(df, df_ref)
 
 
-# function for ranking Ks 
+# perform wilcox SRS 
 
 rank_epistasis <- function(dframe, ko) {
-  df <- dframe %>%
-    group_by(rep, K) %>%
+  df_wilcox <- dframe %>%
     filter(ko_pos == ko) %>%
+    group_by(rep, K) %>%
     mutate(rank_ref = rank(rank_ref, ties.method="average")) %>%   # because there is one fewer rank; we have to move everything up one
     mutate(rank_new = rank(score_KO, ties.method="average")) %>%
-    wilcox_test()
+    gather(key = "rank_group", value = "rank", rank_ref, rank_new) %>%
+    wilcox_test(rank ~ rank_group, paired=TRUE) %>%
+    rename(W=statistic) %>%
+    mutate(ko_pos = as.factor(ko)) %>%
+    select(ko_pos, rep, K, W) %>%
     {.}
-  return(df)
+  print(paste("KO Position:", ko))
+  return(df_wilcox)
 }
 
-df_re <- rank_epistasis(df, 1)
+
+df_re <- data.frame(
+  ko_pos=factor(),
+  rep=factor(),
+  K=factor(),
+  W=numeric()
+  )
+
+for (ko in unique(ko_pos)) {
+  df_re <- add_row(df_re, rank_epistasis(df, ko))
+}
 
