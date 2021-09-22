@@ -18,6 +18,7 @@ library(rstatix)
 
 # files to process
 datafile <- "merged_knockout.csv"
+outfile <- "wilcoxon.csv"
 
 # columns that represent factors to be sorted by, not numbers
 fac_cols <- c("mt_pos", "ko_pos", "rep", "K")
@@ -68,7 +69,8 @@ df_re <- data.frame(
   W=numeric()
   )
 
-for (ko in unique(ko_pos)) {
+for (ko in unique(df$ko_pos)) {
   df_re <- add_row(df_re, rank_epistasis(df, ko))
 }
 
+write.csv(df_re, paste(data_path, outfile, sep=""))
