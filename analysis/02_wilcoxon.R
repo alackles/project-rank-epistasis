@@ -73,4 +73,4 @@ for (ko in unique(df$ko_pos)) {
   df_re <- add_row(df_re, rank_epistasis(df, ko))
 }
 
-write.csv(df_re, paste(data_path, outfile, sep=""))
+write.csv(df_re, paste(data_path, outfile, sep=""), row.names=FALSE)
