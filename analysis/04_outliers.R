@@ -11,6 +11,7 @@ proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
 data_path <- paste(proj_path, "data/", sep="")
 
 # library load
+library(dplyr)
 
 # files to process
 datafile <- "wilcoxon.csv"
@@ -27,3 +28,5 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 # convert appropriate columns to factors
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
+outliers <- df %>% filter(W>3500)
+  
