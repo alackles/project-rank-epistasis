@@ -18,7 +18,7 @@ datafile <- "wilcoxon.csv"
 outfile <- "outliers.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("ko_pos", "rep", "K")
+fac_cols <- c("pos_MUT", "rep", "K")
 
 # ------------------------#
 #        Load file        #
