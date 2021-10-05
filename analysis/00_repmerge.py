@@ -27,7 +27,7 @@ reps = [str(x).rjust(2, '0') for x in range(first_rep,last_rep+1)]
 
 knockout_filename = "mutants.csv"
 
-source_datapath = "../data/"
+source_datapath = "../data/reps/"
 final_datapath = "../data/"
 
 # list of the columns that we want to keep
