@@ -38,5 +38,6 @@ for k in kvals:
         outpath_var = 'output.filename=\\"' + dirname + 'output.csv\\"'
         mutpath_var = 'eval_nkrank.mutant_file=\\"' + dirname + 'mutants.csv\\"'
         nkpath_var = 'eval_nkrank.nk_file=\\"' + dirname + 'nk.csv\\"'
-        settings = k_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + mutpath_var + "\;" + nkpath_var
+        genpath_var = 'eval_nkrank.genome_file=\\"' + dirname + 'ref_genome.csv\\"'
+        settings = k_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + mutpath_var + "\;" + nkpath_var + "\;" + genpath_var
         os.system(runpath + " -f " + mabefile + " -s " + settings)
