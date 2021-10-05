@@ -18,7 +18,7 @@ genfile = "./third-party/MABE2/settings/NKRank.gen"
 mabefile = "./third-party/MABE2/settings/NKRank.mabe"
 
 firstrep = 0
-lastrep = 1
+lastrep = 100
 kvals = [0, 1, 2, 4, 8]
 
 
