@@ -29,6 +29,6 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 # convert appropriate columns to factors
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
-outliers <- df %>% filter(W>3500)
+outliers <- df %>% filter(W>4400)
 
 write.csv(outliers, paste(data_path, outfile, sep=""), row.names=FALSE)
