@@ -8,7 +8,7 @@
 # path set
 
 proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
-data_path <- paste(proj_path, "data/reps/", sep="")
+data_path <- paste(proj_path, "data/", sep="")
 
 # library load
 
