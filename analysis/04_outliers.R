@@ -17,9 +17,6 @@ library(dplyr)
 datafile <- "wilcoxon.csv"
 outfile <- "outliers.csv"
 
-# columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "rep", "K")
-
 # ------------------------#
 #        Load file        #
 #-------------------------#
@@ -27,7 +24,6 @@ fac_cols <- c("pos_MUT", "rep", "K")
 df <- read.csv(paste(data_path, datafile, sep=""))
 
 # convert appropriate columns to factors
-df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 outliers <- df %>% filter(W>4400)
 
