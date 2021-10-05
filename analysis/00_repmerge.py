@@ -20,9 +20,9 @@ import glob
 # constants, filenames, and other things like that
 
 # conditions
-kvals = [str(x) for x in [0, 1, 2, 4, 8]] # NBack
-first_rep = 0
-last_rep = 99
+kvals = [str(x) for x in [0, 1, 2, 4, 8]] 
+first_rep = 100
+last_rep = 199
 reps = [str(x).rjust(2, '0') for x in range(first_rep,last_rep+1)]
 
 knockout_filename = "mutants.csv"
