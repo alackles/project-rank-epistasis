@@ -18,7 +18,7 @@ genfile = "./third-party/MABE2/settings/NKRank.gen"
 mabefile = "./third-party/MABE2/settings/NKRank.mabe"
 
 firstrep = 100
-lastrep = 199
+lastrep = 200
 kvals = [0, 1, 2, 4, 8]
 
 
@@ -33,6 +33,7 @@ for k in kvals:
     for rep in range(firstrep, lastrep):
         randseed = rep
         dirname = reppath + "SEED_" + str(randseed).rjust(digs, '0') + "__K_" + str(k) +  "/" 
+        print(dirname)
         Path(dirname).mkdir(parents=True, exist_ok=True)
         randseed_var = "random_seed=" + str(randseed)
         outpath_var = 'output.filename=\\"' + dirname + 'output.csv\\"'
