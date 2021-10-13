@@ -19,7 +19,7 @@ library(viridis)
 datafile <- "summary.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("ko_pos", "K")
+fac_cols <- c("pos_MUT", "K")
 
 # ------------------------#
 #        Load file        #
@@ -31,7 +31,7 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 
-plot <- ggplot(data=df, aes(x=ko_pos, y=mean.W, ymin=lo.W, ymax=hi.W, color=K, fill=K)) + 
+plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=K, fill=K)) + 
   geom_pointrange() + 
   theme_bw() + 
   xlab("\n Genome Position") + 

@@ -18,7 +18,7 @@ datafile <- "wilcoxon.csv"
 outfile <- "summary.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("ko_pos", "rep", "K")
+fac_cols <- c("pos_MUT", "rep", "K")
 
 # ------------------------#
 #        Load file        #
@@ -27,7 +27,7 @@ fac_cols <- c("ko_pos", "rep", "K")
 df <- read.csv(paste(data_path, datafile, sep=""))
 
 summary.loc <- df %>%
-  group_by(ko_pos, K) %>%
+  group_by(pos_MUT, K) %>%
   summarise(mean.W = mean(W),
             sd.W = sd(W),
             n.W = n()) %>%

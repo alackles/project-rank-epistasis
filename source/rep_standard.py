@@ -10,24 +10,35 @@
 import os
 from pathlib import Path 
 
-firstrep = 0
-lastrep = 1
+buildpath = "./third-party/MABE2/build/"
+runpath = buildpath + "MABE"
+reppath = "../data/reps/standard/"
+
+genfile = "./third-party/MABE2/settings/NKRank.gen"
+mabefile = "./third-party/MABE2/settings/NKRank.mabe"
+
+firstrep = 100
+lastrep = 200
 kvals = [0, 1, 2, 4, 8]
-mabepath = "./third-party/MABE2/build/MABE"
-runpath = "./third-party/MABE2/settings/NKRank.mabe"
-dirpath = "../data/reps/standard/"
+
+
 
 digs = len(str(lastrep-firstrep))
+
+# clean build of MABE
+os.system("cd " + buildpath + "&& make clean && make && cd ../../../")
 
 for k in kvals:
     k_var = "eval_nkrank.K=" + str(k)
     for rep in range(firstrep, lastrep):
         randseed = rep
-        dirname = dirpath + "SEED_" + str(randseed).rjust(digs, '0') + "__K_" + str(k) +  "/" 
+        dirname = reppath + "SEED_" + str(randseed).rjust(digs, '0') + "__K_" + str(k) +  "/" 
+        print(dirname)
         Path(dirname).mkdir(parents=True, exist_ok=True)
         randseed_var = "random_seed=" + str(randseed)
         outpath_var = 'output.filename=\\"' + dirname + 'output.csv\\"'
-        kopath_var = 'eval_nkrank.knockout_file=\\"' + dirname + 'knockout.csv\\"'
-        settings = k_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + kopath_var
-        os.system(mabepath + " -f " + runpath + " -s " + settings)
-        print(settings)
+        mutpath_var = 'eval_nkrank.mutant_file=\\"' + dirname + 'mutants.csv\\"'
+        nkpath_var = 'eval_nkrank.nk_file=\\"' + dirname + 'nk.csv\\"'
+        genpath_var = 'eval_nkrank.genome_file=\\"' + dirname + 'ref_genome.csv\\"'
+        settings = k_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + mutpath_var + "\;" + nkpath_var + "\;" + genpath_var
+        os.system(runpath + " -f " + mabefile + " -s " + settings)

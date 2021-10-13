@@ -17,11 +17,11 @@ library(dplyr)
 library(rstatix)
 
 # files to process
-datafile <- "merged_knockout.csv"
+datafile <- "merged_mutants.csv"
 outfile <- "wilcoxon.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("mt_pos", "ko_pos", "rep", "K")
+fac_cols <- c("pos_REF", "pos_MUT", "rep", "K")
 
 # ------------------------#
 #        Load file        #
@@ -37,40 +37,41 @@ df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 df_ref <- df %>%
   group_by(rep, K) %>%
-  select(-c(ko_pos, score_KO)) %>%
+  select(-c(pos_MUT, score_MUT)) %>%
   unique() %>%
-  mutate(rank_ref = rank(score_MT, ties.method="average"))
+  mutate(rank_ref = rank(score_REF, ties.method="average"))
 df <- left_join(df, df_ref)
 
 
 # perform wilcox SRS 
 
-rank_epistasis <- function(dframe, ko) {
+rank_epistasis <- function(dframe, mut) {
   df_wilcox <- dframe %>%
-    filter(ko_pos == ko) %>%
+    filter(pos_MUT == mut) %>%
     group_by(rep, K) %>%
     mutate(rank_ref = rank(rank_ref, ties.method="average")) %>%   # because there is one fewer rank; we have to move everything up one
-    mutate(rank_new = rank(score_KO, ties.method="average")) %>%
-    gather(key = "rank_group", value = "rank", rank_ref, rank_new) %>%
+    mutate(rank_target = rank(score_MUT, ties.method="average")) %>%
+    gather(key = "rank_group", value = "rank", rank_ref, rank_target) %>%
     wilcox_test(rank ~ rank_group, paired=TRUE) %>%
     rename(W=statistic) %>%
-    mutate(ko_pos = as.factor(ko)) %>%
-    select(ko_pos, rep, K, W) %>%
+    mutate(pos_MUT = as.factor(mut)) %>%
+    select(pos_MUT, rep, K, W) %>%
     {.}
-  print(paste("KO Position:", ko))
+  print(paste("MUT Position:", mut))
   return(df_wilcox)
 }
 
 
+# collate all individual scores
 df_re <- data.frame(
-  ko_pos=factor(),
+  pos_MUT=factor(),
   rep=factor(),
   K=factor(),
   W=numeric()
   )
 
-for (ko in unique(df$ko_pos)) {
-  df_re <- add_row(df_re, rank_epistasis(df, ko))
+for (mut in unique(df$pos_MUT)) {
+  df_re <- add_row(df_re, rank_epistasis(df, mut))
 }
 
 write.csv(df_re, paste(data_path, outfile, sep=""), row.names=FALSE)
