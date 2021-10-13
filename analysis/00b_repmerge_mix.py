@@ -20,8 +20,7 @@ import glob
 # constants, filenames, and other things like that
 
 # conditions
-ka_vals = [str(x) for x in [1,2]] 
-kb_vals = [str(x) for x in [4,8]]
+kvals = [(0, 1), (1, 1), (1, 2), (2, 2), (2, 4), (4, 8), (8, 8)]
 first_rep = 1
 last_rep = 99
 reps = [str(x).rjust(3, '0') for x in range(first_rep,last_rep+1)]
@@ -37,10 +36,11 @@ df_columns = {'org_ID','pos_REF','pos_MUT', 'score_REF','score_MUT'}
 # time to do the merging
 def merge_my_file(filename):
     merged_file = pd.DataFrame(columns=df_columns)
-    for ka in ka_vals: 
-      for kb in kb_vals:
+    for kpair in k_vals: 
+        ka = kpair[0]
+        kb = kpair[1]
         for rep in reps:
-            globpath = source_datapath + "SEED_" + rep + "__K_" + ka + "_" + kb + "/"
+            globpath = source_datapath + "SEED_" + rep + "__KA_" + ka + "__KB_" + kb + "/"
             datapath = glob.glob(globpath + filename)
             if len(datapath) == 1:
                 datapath = "".join(datapath)

@@ -19,19 +19,16 @@ mabefile = "./third-party/MABE2/settings/NKMixed.mabe"
 
 firstrep = 0
 lastrep = 100
-kvals_a = [0, 1, 2]
-kvals_b = [2, 4, 8]
-
-print("help")
-
+kvals =  [(1, 1), (2, 2), (8, 8)]
 
 digs = len(str(lastrep-firstrep))
 
 # clean build of MABE
 os.system("cd " + buildpath + "&& make clean && make && cd ../../../")
 
-for ka in kvals_a:
-  for kb in kvals_b:
+for kpair in kvals:
+      ka = kpair[0]
+      kb = kpair[1]
       ka_var = 'eval_nkmixed.K_a='+ str(ka)
       kb_var = 'eval_nkmixed.K_b=' + str(kb)
       for rep in range(firstrep, lastrep):

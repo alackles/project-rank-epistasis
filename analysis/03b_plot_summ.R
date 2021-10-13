@@ -31,7 +31,7 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 
-plot <- ggplot(data=subset(df, Ka==2 & Kb==8), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
+plot <- ggplot(data=subset(df, Ka==2 & Kb==4), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
   geom_pointrange() + 
   theme_bw() + 
   xlab("\n Genome Position") + 
