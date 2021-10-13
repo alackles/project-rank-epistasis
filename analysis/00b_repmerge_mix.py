@@ -22,9 +22,9 @@ import glob
 # conditions
 ka_vals = [str(x) for x in [1,2]] 
 kb_vals = [str(x) for x in [4,8]]
-first_rep = 0
-last_rep = 100
-reps = [str(x).rjust(2, '0') for x in range(first_rep,last_rep+1)]
+first_rep = 1
+last_rep = 99
+reps = [str(x).rjust(3, '0') for x in range(first_rep,last_rep+1)]
 
 knockout_filename = "mutants.csv"
 
@@ -38,7 +38,7 @@ df_columns = {'org_ID','pos_REF','pos_MUT', 'score_REF','score_MUT'}
 def merge_my_file(filename):
     merged_file = pd.DataFrame(columns=df_columns)
     for ka in ka_vals: 
-      for k_b in kb_vals:
+      for kb in kb_vals:
         for rep in reps:
             globpath = source_datapath + "SEED_" + rep + "__K_" + ka + "_" + kb + "/"
             datapath = glob.glob(globpath + filename)

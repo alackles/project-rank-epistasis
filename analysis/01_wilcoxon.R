@@ -17,11 +17,11 @@ library(dplyr)
 library(rstatix)
 
 # files to process
-datafile <- "merged_mutants.csv"
-outfile <- "wilcoxon.csv"
+datafile <- "merged_mixed_mutants.csv"
+outfile <- "wilcoxon_mixed.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_REF", "pos_MUT", "rep", "K")
+fac_cols <- c("pos_REF", "pos_MUT", "rep", "Ka", "Kb")
 
 # ------------------------#
 #        Load file        #
@@ -36,7 +36,7 @@ df[fac_cols] <- lapply(df[fac_cols], as.factor)
 # process the ranking
 
 df_ref <- df %>%
-  group_by(rep, K) %>%
+  group_by(rep, Ka, Kb) %>%
   select(-c(pos_MUT, score_MUT)) %>%
   unique() %>%
   mutate(rank_ref = rank(score_REF, ties.method="average"))
@@ -48,14 +48,14 @@ df <- left_join(df, df_ref)
 rank_epistasis <- function(dframe, mut) {
   df_wilcox <- dframe %>%
     filter(pos_MUT == mut) %>%
-    group_by(rep, K) %>%
+    group_by(rep, Ka, Kb) %>%
     mutate(rank_ref = rank(rank_ref, ties.method="average")) %>%   # because there is one fewer rank; we have to move everything up one
     mutate(rank_target = rank(score_MUT, ties.method="average")) %>%
     gather(key = "rank_group", value = "rank", rank_ref, rank_target) %>%
     wilcox_test(rank ~ rank_group, paired=TRUE) %>%
     rename(W=statistic) %>%
     mutate(pos_MUT = as.factor(mut)) %>%
-    select(pos_MUT, rep, K, W) %>%
+    select(pos_MUT, rep, Ka, Kb, W) %>%
     {.}
   print(paste("MUT Position:", mut))
   return(df_wilcox)
@@ -66,7 +66,8 @@ rank_epistasis <- function(dframe, mut) {
 df_re <- data.frame(
   pos_MUT=factor(),
   rep=factor(),
-  K=factor(),
+  Ka=factor(),
+  Kb=factor(),
   W=numeric()
   )
 

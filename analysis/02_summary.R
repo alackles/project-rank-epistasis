@@ -14,11 +14,11 @@ data_path <- paste(proj_path, "data/", sep="")
 library(dplyr)
 
 # files to process
-datafile <- "wilcoxon.csv"
-outfile <- "summary.csv"
+datafile <- "wilcoxon_mixed.csv"
+outfile <- "summary_mixed.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "rep", "K")
+fac_cols <- c("pos_MUT", "rep", "Ka", "Kb")
 
 # ------------------------#
 #        Load file        #
@@ -27,7 +27,7 @@ fac_cols <- c("pos_MUT", "rep", "K")
 df <- read.csv(paste(data_path, datafile, sep=""))
 
 summary.loc <- df %>%
-  group_by(pos_MUT, K) %>%
+  group_by(pos_MUT, Ka, Kb) %>%
   summarise(mean.W = mean(W),
             sd.W = sd(W),
             n.W = n()) %>%

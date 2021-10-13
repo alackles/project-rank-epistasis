@@ -16,10 +16,10 @@ library(ggplot2)
 library(viridis)
 
 # files to process
-datafile <- "summary.csv"
+datafile <- "summary_mixed.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "K")
+fac_cols <- c("pos_MUT", "Ka", "Kb")
 
 # ------------------------#
 #        Load file        #
@@ -31,13 +31,11 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 
-plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=K, fill=K)) + 
+plot <- ggplot(data=subset(df, Ka==2 & Kb==8), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
   geom_pointrange() + 
   theme_bw() + 
   xlab("\n Genome Position") + 
   ylab("W\n") + 
-  scale_fill_viridis(discrete=TRUE,option="plasma") +
-  scale_color_viridis(discrete=TRUE,option="plasma") +
   scale_x_discrete(breaks=seq(0,99,10)) +
   theme(axis.title=element_text(size=14)) +
   theme(strip.text = element_text(size=14)) +
