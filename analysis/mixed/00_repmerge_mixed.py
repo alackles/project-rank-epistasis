@@ -27,8 +27,8 @@ reps = [str(x).rjust(3, '0') for x in range(first_rep,last_rep+1)]
 
 knockout_filename = "mutants.csv"
 
-source_datapath = "../data/reps/mixed/"
-final_datapath = "../data/"
+source_datapath = "../../data/reps/mixed/"
+final_datapath = "../../data/"
 
 # list of the columns that we want to keep
 df_columns = {'org_ID','pos_REF','pos_MUT', 'score_REF','score_MUT'}
