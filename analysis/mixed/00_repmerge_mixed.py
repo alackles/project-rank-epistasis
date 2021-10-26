@@ -20,7 +20,7 @@ import glob
 # constants, filenames, and other things like that
 
 # conditions
-kvals = [(0, 1), (1, 1), (1, 2), (2, 2), (2, 4), (4, 8), (8, 8)]
+kvals =  [(0, 1), (1, 2), (1, 8), (2, 2), (2, 4), (2, 8), (4, 8)]
 first_rep = 1
 last_rep = 99
 reps = [str(x).rjust(3, '0') for x in range(first_rep,last_rep+1)]
