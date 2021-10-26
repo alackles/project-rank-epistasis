@@ -36,7 +36,7 @@ df_columns = {'org_ID','pos_REF','pos_MUT', 'score_REF','score_MUT'}
 # time to do the merging
 def merge_my_file(filename):
     merged_file = pd.DataFrame(columns=df_columns)
-    for kpair in k_vals: 
+    for kpair in kvals: 
         ka = kpair[0]
         kb = kpair[1]
         for rep in reps:
