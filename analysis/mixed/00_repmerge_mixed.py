@@ -37,8 +37,8 @@ df_columns = {'org_ID','pos_REF','pos_MUT', 'score_REF','score_MUT'}
 def merge_my_file(filename):
     merged_file = pd.DataFrame(columns=df_columns)
     for kpair in kvals: 
-        ka = kpair[0]
-        kb = kpair[1]
+        ka = str(kpair[0])
+        kb = str(kpair[1])
         for rep in reps:
             globpath = source_datapath + "SEED_" + rep + "__KA_" + ka + "__KB_" + kb + "/"
             datapath = glob.glob(globpath + filename)
