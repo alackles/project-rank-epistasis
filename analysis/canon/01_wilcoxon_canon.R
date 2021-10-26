@@ -21,7 +21,7 @@ datafile <- "merged_canon_mutants.csv"
 outfile <- "wilcoxon_canon.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_REF", "pos_MUT", "rep", "Ka", "Kb")
+fac_cols <- c("pos_REF", "pos_MUT", "rep", "K")
 
 # ------------------------#
 #        Load file        #
@@ -66,8 +66,7 @@ rank_epistasis <- function(dframe, mut) {
 df_re <- data.frame(
   pos_MUT=factor(),
   rep=factor(),
-  Ka=factor(),
-  Kb=factor(),
+  K=factor(),
   W=numeric()
   )
 
