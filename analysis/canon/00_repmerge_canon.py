@@ -27,7 +27,7 @@ reps = [str(x).rjust(2, '0') for x in range(first_rep,last_rep+1)]
 
 knockout_filename = "mutants.csv"
 
-source_datapath = "../data/reps/"
+source_datapath = "../data/reps/canon"
 final_datapath = "../data/"
 
 # list of the columns that we want to keep
@@ -56,7 +56,7 @@ def merge_my_file(filename):
             filemerge["K"] = k
             # add to our list of dataframes for each k
             merged_file = merged_file.append(filemerge, sort=False)
-    filepath = final_datapath + "merged_" + filename
+    filepath = final_datapath + "merged_canon_" + filename
     merged_file.to_csv(filepath,index=False)
 
 
