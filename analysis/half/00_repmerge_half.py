@@ -20,10 +20,10 @@ import glob
 # constants, filenames, and other things like that
 
 # conditions
-kvals = [(0, 1), (1, 1), (1, 2), (2, 2), (2, 4), (4, 8), (8, 8)]
+kvals =  [(0, 1), (1, 2), (1, 8), (2, 2), (2, 4), (2, 8), (4, 8)]
 first_rep = 1
 last_rep = 99
-reps = [str(x).rjust(3, '0') for x in range(first_rep,last_rep+1)]
+reps = [str(x).rjust(2, '0') for x in range(first_rep,last_rep+1)]
 
 knockout_filename = "mutants.csv"
 
@@ -36,9 +36,9 @@ df_columns = {'org_ID','pos_REF','pos_MUT', 'score_REF','score_MUT'}
 # time to do the merging
 def merge_my_file(filename):
     merged_file = pd.DataFrame(columns=df_columns)
-    for kpair in k_vals: 
-        ka = kpair[0]
-        kb = kpair[1]
+    for kpair in kvals: 
+        ka = str(kpair[0])
+        kb = str(kpair[1])
         for rep in reps:
             globpath = source_datapath + "SEED_" + rep + "__KA_" + ka + "__KB_" + kb + "/"
             datapath = glob.glob(globpath + filename)
