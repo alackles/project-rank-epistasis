@@ -10,16 +10,18 @@
 proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
 data_path <- paste(proj_path, "data/", sep="")
 fig_path <- paste(proj_path, "figs/", sep="")
+fig.width = 6
+fig.height= 4
 
 # library load
 library(ggplot2)
 library(viridis)
 
 # files to process
-datafile <- "summary_mixed.csv"
+datafile <- "summary_half.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "Ka", "Kb")
+fac_cols <- c("pos_MUT", "Ka", "Kb", "group", "pos.K")
 
 # ------------------------#
 #        Load file        #
@@ -31,8 +33,9 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 
-plot <- ggplot(data=subset(df, Ka==2 & Kb==4), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
+plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
   geom_pointrange() + 
+  facet_wrap(~group) +
   theme_bw() + 
   xlab("\n Genome Position") + 
   ylab("W\n") + 

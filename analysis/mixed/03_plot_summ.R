@@ -19,7 +19,7 @@ library(viridis)
 datafile <- "summary_mixed.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "Ka", "Kb")
+fac_cols <- c("pos_MUT", "Ka", "Kb", "group")
 
 # ------------------------#
 #        Load file        #
@@ -31,8 +31,9 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
 
-plot <- ggplot(data=subset(df, Ka==2 & Kb==4), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
+plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
   geom_pointrange() + 
+  facet_wrap(~group) +
   theme_bw() + 
   xlab("\n Genome Position") + 
   ylab("W\n") + 
