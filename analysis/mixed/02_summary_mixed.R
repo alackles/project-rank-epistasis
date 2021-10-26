@@ -32,7 +32,7 @@ summary.loc <- df %>%
             sd.W = sd(W),
             n.W = n()) %>%
   mutate(pos.K = ifelse((pos_MUT %% 2)==0, Ka, Kb),
-         group = as.factor(paste(as.character(Ka), as.character(Kb), sep="")),
+         group = as.factor(paste(as.character(Ka), as.character(Kb), sep="_")),
          se.W = sd.W/ sqrt(n.W),
          lo.W = mean.W - qt(1-(0.05/2), n.W - 1) * se.W,
          hi.W = mean.W + qt(1-(0.05/2), n.W - 1) * se.W)

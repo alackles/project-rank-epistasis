@@ -31,6 +31,7 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 
 # convert appropriate columns to factors
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
+df <- subset(df, group!="2_8") # drop one of them just to have 3 by 2
 
 
 plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
@@ -39,7 +40,11 @@ plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos
   theme_bw() + 
   xlab("\n Genome Position") + 
   ylab("W\n") + 
+  scale_color_viridis(discrete=TRUE)+
   scale_x_discrete(breaks=seq(0,99,10)) +
   theme(axis.title=element_text(size=14)) +
   theme(strip.text = element_text(size=14)) +
   theme(strip.background=element_rect(fill="white"))
+
+
+ggsave(plot=plot, filename=paste(fig_path, "summary_half.pdf", sep=""), width=fig.width, height=fig.height)
