@@ -18,7 +18,7 @@ mabefile_canon = "./third-party/MABE2/settings/NKRank.mabe"
 mabefile_vari = "./third-party/MABE2/settings/NKVar.mabe"
 
 firstrep = 0
-lastrep = 2
+lastrep = 99
  
 # canonical NK 
 kvals =  0, 1, 2, 4, 8
@@ -34,7 +34,7 @@ os.system("cd " + buildpath + "&& make clean && make && cd ../../../")
 
 for k in kvals:
       k_var = 'eval_nkrank.K='+ str(k)
-      for rep in range(firstrep, lastrep):
+      for rep in range(firstrep, lastrep+1):
           randseed = rep
           dirname = reppath + "canon/SEED_" + str(randseed).rjust(digs, '0') + "__K_" + str(k) + "/"
           print(dirname)
@@ -55,7 +55,7 @@ for kpair in kpairs:
     for nk in nktypes:
         nk_var = 'eval_nkvar.nk_type=\\"' + nk + '\\"'
         print(nk_var)
-        for rep in range(firstrep, lastrep):
+        for rep in range(firstrep, lastrep+1):
             randseed = rep
             dirname = reppath + nk + "/SEED_" + str(randseed).rjust(digs, '0') + "__KA_" + str(ka) + "__KB_" + str(kb) +  "/" 
             print(dirname)
@@ -63,7 +63,7 @@ for kpair in kpairs:
             randseed_var = "random_seed=" + str(randseed)
             outpath_var = 'output.filename=\\"' + dirname + 'output.csv\\"'
             mutpath_var = 'eval_nkvar.mutant_file=\\"' + dirname + 'mutants.csv\\"'
-            nkpath_var = 'eval_nkvar.nk_file=\\"' + dirname + 'nk.csv\\"'
+            nkpref_var = 'eval_nkvar.nk_prefix=\\"' + dirname + 'nk\\"'
             genpath_var = 'eval_nkvar.genome_file=\\"' + dirname + 'ref_genome.csv\\"'
-            settings = nk_var + "\;" + ka_var + "\;" + kb_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + mutpath_var + "\;" + nkpath_var + "\;" + genpath_var
+            settings = nk_var + "\;" + ka_var + "\;" + kb_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + mutpath_var + "\;" + nkpref_var + "\;" + genpath_var
             os.system(runpath + " -f " + mabefile_vari + " -s " + settings)
