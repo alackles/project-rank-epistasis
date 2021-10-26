@@ -1,0 +1,42 @@
+# Acacia Ackles
+# Created for rank epistasis project
+
+# ------------------------#
+#        Setup            #
+#-------------------------#
+
+# path set
+
+proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
+data_path <- paste(proj_path, "data/", sep="")
+fig_path <- paste(proj_path, "figs/", sep="")
+
+# library load
+library(ggplot2)
+library(viridis)
+
+# files to process
+datafile <- "summary_mixed.csv"
+
+# columns that represent factors to be sorted by, not numbers
+fac_cols <- c("pos_MUT", "Ka", "Kb")
+
+# ------------------------#
+#        Load file        #
+#-------------------------#
+
+df <- read.csv(paste(data_path, datafile, sep=""))
+
+# convert appropriate columns to factors
+df[fac_cols] <- lapply(df[fac_cols], as.factor)
+
+
+plot <- ggplot(data=subset(df, Ka==2 & Kb==4), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W)) +
+  geom_pointrange() + 
+  theme_bw() + 
+  xlab("\n Genome Position") + 
+  ylab("W\n") + 
+  scale_x_discrete(breaks=seq(0,99,10)) +
+  theme(axis.title=element_text(size=14)) +
+  theme(strip.text = element_text(size=14)) +
+  theme(strip.background=element_rect(fill="white"))
