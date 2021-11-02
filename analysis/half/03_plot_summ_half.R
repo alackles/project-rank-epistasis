@@ -10,8 +10,8 @@
 proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
 data_path <- paste(proj_path, "data/", sep="")
 fig_path <- paste(proj_path, "figs/", sep="")
-fig.width = 6
-fig.height= 4
+fig.width = 12
+fig.height= 8
 
 # library load
 library(ggplot2)

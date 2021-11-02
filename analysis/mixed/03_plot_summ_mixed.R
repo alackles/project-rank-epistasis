@@ -10,6 +10,8 @@
 proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
 data_path <- paste(proj_path, "data/", sep="")
 fig_path <- paste(proj_path, "figs/", sep="")
+fig.width = 12
+fig.height = 8
 
 # library load
 library(ggplot2)
@@ -38,6 +40,7 @@ plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos
   theme_bw() + 
   xlab("\n Genome Position") + 
   ylab("W\n") + 
+  scale_color_viridis(discrete=TRUE)+
   scale_x_discrete(breaks=seq(0,99,10)) +
   theme(axis.title=element_text(size=14)) +
   theme(strip.text = element_text(size=14)) +
