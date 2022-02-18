@@ -25,14 +25,14 @@ kvals =  0, 1, 2, 4, 8
 
 # variant NK
 kpairs =  [(0, 1), (1, 2), (1, 8), (2, 2), (2, 4), (2, 8), (4, 8)]
-nktypes = ["half", "mixed"]
+nktypes = ["mixed"]
 
 digs = len(str(lastrep-firstrep))
 
 # clean build of MABE
 os.system("cd " + buildpath + "&& make clean && make && cd ../../../")
 
-for k in kvals:
+""" for k in kvals:
       k_var = 'eval_nkrank.K='+ str(k)
       for rep in range(firstrep, lastrep+1):
           randseed = rep
@@ -45,7 +45,7 @@ for k in kvals:
           nkpath_var = 'eval_nkrank.nk_file=\\"' + dirname + 'nk.csv\\"'
           genpath_var = 'eval_nkrank.genome_file=\\"' + dirname + 'ref_genome.csv\\"'
           settings = k_var + "\;" + randseed_var + "\;" + outpath_var + "\;" + mutpath_var + "\;" + nkpath_var + "\;" + genpath_var
-          os.system(runpath + " -f " + mabefile_canon + " -s " + settings)
+          os.system(runpath + " -f " + mabefile_canon + " -s " + settings) """
 
 for kpair in kpairs:
     ka = kpair[0]
