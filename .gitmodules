@@ -1,4 +1,4 @@
 [submodule "MABE2"]
 	path = source/third-party/MABE2
 	url = git@github.com:alackles/MABE2.git
-	branch = eval-reNK
+	branch = eval-Rank
