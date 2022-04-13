@@ -22,7 +22,7 @@ def runmabe(exec, mabefile, params):
   # last: last replicate (works like python, so not inclusive)
   os.system(exec + " -f " + mabefile + " -s " + params)
 
-def make_settings(param, mabepath):
+def make_settings(param):
     reppath = param["path"]
     seed = str(int(param["rep"])) # remove leading 0s
     nktype = param["nktype"]
@@ -64,7 +64,7 @@ def main():
 
     for param in params:
         Path(param["path"].mkdir(parents=True, exist_ok=True))
-        setting = make_settings(param, mabepath)
+        setting = make_settings(param)
         if param["nktype"] == "canon":
             mabefile = mabepath + "settings/NKRank.mabe"
         else:
