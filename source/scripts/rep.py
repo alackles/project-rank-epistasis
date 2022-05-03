@@ -44,16 +44,16 @@ def make_settings(param):
 
     if nktype != "canon":
         # K TYPE
-        settings.append('eval_nkvar.nk_type=\\"' + nktype + '\\"')       # mutation 'prob' (always on)
-        settings.append('eval_nkvar.nk_prefix=\\"' + reppath + 'nk\\"')
+        settings.append(eval_string + '.nk_type=\\"' + nktype + '\\"')       # mutation 'prob' (always on)
+        settings.append(eval_string + '.nk_prefix=\\"' + reppath + 'nk\\"')
 
         # K VALUES
         ka, kb = k.split("_")
-        settings.append('eval_nkvar.K_a=\\"' + ka + '\\"')       # mutation 'prob' (always on)
-        settings.append('eval_nkvar.K_b=\\"' + kb + '\\"')       # mutation 'prob' (always on)
+        settings.append(eval_string + '.K_a=\\"' + ka + '\\"')       # mutation 'prob' (always on)
+        settings.append(eval_string + '.K_b=\\"' + kb + '\\"')       # mutation 'prob' (always on)
     else:
-        settings.append('eval_nkrank.K=\\"' + k + '\\"')       # mutation 'prob' (always on)
-        settings.append('eval_nkrank.nk_file=\\"' + reppath + 'nk\\"')
+        settings.append(eval_string + '.K=\\"' + k + '\\"')       # mutation 'prob' (always on)
+        settings.append(eval_string + '.nk_file=\\"' + reppath + 'nk\\"')
     return "\;".join(settings) 
     
 def mabe_run(param):
