@@ -7,6 +7,7 @@
 #  @brief Quick & dirty way to run multiple replicates in MABE and save the data.
 #
 
+import multiprocessing as mp
 import os
 from pathlib import Path
 
@@ -36,37 +37,42 @@ def make_settings(param):
     settings.append('random_seed=\\"' + seed + '\\"')
 
     # OUTPUT
-    settings.append('output.filename=\\"' + reppath + 'output.csv\\"')
+    settings.append('fit_file.filename=\\"' + reppath + 'fitness.csv\\"')
+    settings.append('max_file.filename=\\"' + reppath + 'max_org.csv\\"')
     settings.append(eval_string + '.mutant_file=\\"' + reppath + 'mutants.csv\\"')
-    settings.append(eval_string + '.nk_prefix=\\"' + reppath + 'nk\\"')
     settings.append(eval_string + '.genome_file=\\"' + reppath + 'ref_genome.csv\\"')
 
     if nktype != "canon":
         # K TYPE
         settings.append('eval_nkvar.nk_type=\\"' + nktype + '\\"')       # mutation 'prob' (always on)
+        settings.append('eval_nkvar.nk_prefix=\\"' + reppath + 'nk\\"')
 
         # K VALUES
         ka, kb = k.split("_")
         settings.append('eval_nkvar.K_a=\\"' + ka + '\\"')       # mutation 'prob' (always on)
         settings.append('eval_nkvar.K_a=\\"' + kb + '\\"')       # mutation 'prob' (always on)
-    
+    else:
+        settings.append('eval_nkrank.nk_file=\\"' + reppath + 'nk\\"')
     return "\;".join(settings) 
     
+def mabe_run(param):
+    Path(param["path"]).mkdir(parents=True, exist_ok=True)
+    setting = make_settings(param)
+    if param["nktype"] == "canon":
+        mabefile = mabepath + "settings/NKRank.mabe"
+    else:
+        mabefile = mabepath + "settings/NKVar.mabe"
+    runmabe(runfile, mabefile, setting)
 
-def main():
+if __name__=="__main__":
+    
     mabepath = "./../third-party/MABE2/"
     buildpath = mabepath + "build/"
     runfile = buildpath + "MABE"
 
-    params = parameters()
-    
     buildmabe(buildpath)
 
-    for param in params:
-        Path(param["path"].mkdir(parents=True, exist_ok=True))
-        setting = make_settings(param)
-        if param["nktype"] == "canon":
-            mabefile = mabepath + "settings/NKRank.mabe"
-        else:
-            mabefile = mabepath + "settings/NKVar.mabe"
-        runmabe(runfile, mabefile, setting)
+    params = parameters(first=0, last=2)
+    
+    pool = mp.Pool()
+    pool.map(mabe_run, params)
