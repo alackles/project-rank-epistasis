@@ -34,3 +34,6 @@
 # Data files
 data/reps/*
 data/*.csv
+
+# Python caches
+*__pycache__
