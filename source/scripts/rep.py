@@ -50,8 +50,9 @@ def make_settings(param):
         # K VALUES
         ka, kb = k.split("_")
         settings.append('eval_nkvar.K_a=\\"' + ka + '\\"')       # mutation 'prob' (always on)
-        settings.append('eval_nkvar.K_a=\\"' + kb + '\\"')       # mutation 'prob' (always on)
+        settings.append('eval_nkvar.K_b=\\"' + kb + '\\"')       # mutation 'prob' (always on)
     else:
+        settings.append('eval_nkrank.K=\\"' + k + '\\"')       # mutation 'prob' (always on)
         settings.append('eval_nkrank.nk_file=\\"' + reppath + 'nk\\"')
     return "\;".join(settings) 
     
@@ -73,6 +74,6 @@ if __name__=="__main__":
     buildmabe(buildpath)
 
     params = parameters(first=0, last=2)
-    
-    pool = mp.Pool()
-    pool.map(mabe_run, params)
+    print(params)
+    #pool = mp.Pool()
+    #pool.map(mabe_run, params)
