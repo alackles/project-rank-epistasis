@@ -14,11 +14,11 @@ data_path <- paste(proj_path, "data/", sep="")
 library(dplyr)
 
 # files to process
-datafile <- "wilcoxon_half.csv"
-outfile <- "summary_half.csv"
+datafile <- "wilcoxon_var.csv"
+outfile <- "summary_var.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "rep", "Ka", "Kb")
+fac_cols <- c("pos_MUT", "rep", "nktype", "ka", "kb")
 
 # ------------------------#
 #        Load file        #
@@ -27,12 +27,12 @@ fac_cols <- c("pos_MUT", "rep", "Ka", "Kb")
 df <- read.csv(paste(data_path, datafile, sep=""))
 
 summary.loc <- df %>%
-  group_by(pos_MUT, Ka, Kb) %>%
+  group_by(pos_MUT, nktype, ka, kb) %>%
   summarise(mean.W = mean(W),
             sd.W = sd(W),
             n.W = n()) %>%
-  mutate(pos.K = ifelse(pos_MUT < 50, Ka, Kb),
-         group = as.factor(paste(as.character(Ka), as.character(Kb), sep="_")),
+  mutate(pos.K = ifelse(pos_MUT < 50, ka, kb),
+         group = as.factor(paste(as.character(ka), as.character(kb), sep="_")),
          se.W = sd.W/ sqrt(n.W),
          lo.W = mean.W - qt(1-(0.05/2), n.W - 1) * se.W,
          hi.W = mean.W + qt(1-(0.05/2), n.W - 1) * se.W)

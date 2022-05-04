@@ -17,11 +17,11 @@ library(dplyr)
 library(rstatix)
 
 # files to process
-datafile <- "merged_canon_mutants.csv"
+infile <- "merged_canon.csv"
 outfile <- "wilcoxon_canon.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_REF", "pos_MUT", "rep", "K")
+fac_cols <- c("pos_REF", "pos_MUT", "rep", "k")
 
 # ------------------------#
 #        Load file        #
@@ -36,7 +36,7 @@ df[fac_cols] <- lapply(df[fac_cols], as.factor)
 # process the ranking
 
 df_ref <- df %>%
-  group_by(rep, K) %>%
+  group_by(rep, k) %>%
   select(-c(pos_MUT, score_MUT)) %>%
   unique() %>%
   mutate(rank_ref = rank(score_REF, ties.method="average"))
@@ -55,7 +55,7 @@ rank_epistasis <- function(dframe, mut) {
     wilcox_test(rank ~ rank_group, paired=TRUE) %>%
     rename(W=statistic) %>%
     mutate(pos_MUT = as.factor(mut)) %>%
-    select(pos_MUT, rep, K, W) %>%
+    select(pos_MUT, rep, k, W) %>%
     {.}
   print(paste("MUT Position:", mut))
   return(df_wilcox)
