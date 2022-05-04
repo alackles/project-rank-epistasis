@@ -73,7 +73,6 @@ if __name__=="__main__":
 
     buildmabe(buildpath)
 
-    params = parameters(first=0, last=2)
-    print(params)
-    #pool = mp.Pool()
-    #pool.map(mabe_run, params)
+    params = parameters()
+    pool = mp.Pool()
+    pool.map(mabe_run, params)
