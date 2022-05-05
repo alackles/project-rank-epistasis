@@ -17,7 +17,7 @@ library(dplyr)
 library(rstatix)
 
 # files to process
-infile <- "merged_canon.csv"
+datafile <- "merged_canon.csv"
 outfile <- "wilcoxon_canon.csv"
 
 # columns that represent factors to be sorted by, not numbers
@@ -48,7 +48,7 @@ df <- left_join(df, df_ref)
 rank_epistasis <- function(dframe, mut) {
   df_wilcox <- dframe %>%
     filter(pos_MUT == mut) %>%
-    group_by(rep, K) %>%
+    group_by(rep, k) %>%
     mutate(rank_ref = rank(rank_ref, ties.method="average")) %>%   # because there is one fewer rank; we have to move everything up one
     mutate(rank_target = rank(score_MUT, ties.method="average")) %>%
     gather(key = "rank_group", value = "rank", rank_ref, rank_target) %>%
@@ -66,7 +66,7 @@ rank_epistasis <- function(dframe, mut) {
 df_re <- data.frame(
   pos_MUT=factor(),
   rep=factor(),
-  K=factor(),
+  k=factor(),
   W=numeric()
   )
 

@@ -66,8 +66,9 @@ rank_epistasis <- function(dframe, mut) {
 df_re <- data.frame(
   pos_MUT=factor(),
   rep=factor(),
-  Ka=factor(),
-  Kb=factor(),
+  nktype=factor(),
+  ka=factor(),
+  kb=factor(),
   W=numeric()
   )
 
