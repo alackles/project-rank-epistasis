@@ -16,12 +16,13 @@ fig.height = 8
 # library load
 library(ggplot2)
 library(viridis)
+library(dplyr)
 
 # files to process
 datafile <- "summary_var.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("pos_MUT", "ka", "kb", "nktype", "group", "pos.K")
+fac_cols <- c("pos_MUT", "ka", "kb", "nktype", "group")
 
 # ------------------------#
 #        Load file        #
@@ -31,6 +32,13 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 
 # convert appropriate columns to factors
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
+
+# add positional k (for coloring)
+
+
+# sorry about this
+df <- df %>%
+  mutate(pos.K = if_else((nktype== 'half' & as.numeric(pos_MUT) <= 50) | (nktype == 'merged' & as.numeric(pos_MUT) %% 2 == 1), ka, kb))
 
 var_plot <- function(nkvar) {
   half_plot <- ggplot(data=subset(df, nktype==nkvar), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
