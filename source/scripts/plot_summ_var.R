@@ -32,8 +32,8 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 # convert appropriate columns to factors
 df[fac_cols] <- lapply(df[fac_cols], as.factor)
 
-var_plot <- function(nktype) {
-  half_plot <- ggplot(data=subset(df, nktype=nktype), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
+var_plot <- function(nkvar) {
+  half_plot <- ggplot(data=subset(df, nktype==nkvar), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
     geom_pointrange() + 
     facet_wrap(~group) +
     theme_bw() + 
@@ -47,7 +47,7 @@ var_plot <- function(nktype) {
 }
 
 half_plot <- var_plot("half")
-mixed_plot <- var_plot("mixed")
+mixed_plot <- var_plot("merged")
 
 ggsave(plot=half_plot, filename=paste(fig_path, "summary_half.pdf", sep=""), width=fig.width, height=fig.height)
 ggsave(plot=mixed_plot, filename=paste(fig_path, "summary_mixed.pdf", sep=""), width=fig.width, height=fig.height)
