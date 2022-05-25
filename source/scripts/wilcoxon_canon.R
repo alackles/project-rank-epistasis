@@ -53,7 +53,6 @@ rank_epistasis <- function(dframe, mut) {
     mutate(rank_target = rank(score_MUT, ties.method="average")) %>%
     gather(key = "rank_group", value = "rank", rank_ref, rank_target) %>%
     wilcox_test(rank ~ rank_group, paired=TRUE) %>%
-    print() %>%
     rename(W=statistic) %>%
     mutate(pos_MUT = as.factor(mut)) %>%
     select(pos_MUT, rep, k, W) %>%
@@ -74,4 +73,4 @@ for (mut in unique(df$pos_MUT)) {
   df_re <- add_row(df_re, rank_epistasis(df, mut))
 }
 
-#write.csv(df_re, paste(data_path, outfile, sep=""), row.names=FALSE)
+write.csv(df_re, paste(data_path, outfile, sep=""), row.names=FALSE)

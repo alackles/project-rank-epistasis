@@ -40,8 +40,11 @@ df[fac_cols] <- lapply(df[fac_cols], as.factor)
 df <- df %>%
   mutate(pos.K = if_else((nktype== 'half' & as.numeric(pos_MUT) <= 50) | (nktype == 'merged' & as.numeric(pos_MUT) %% 2 == 1), ka, kb))
 
+# https://stackoverflow.com/questions/30372368/adding-empty-graphs-to-facet-wrap-in-ggplot2
+# check this
+
 var_plot <- function(nkvar) {
-  half_plot <- ggplot(data=subset(df, nktype==nkvar), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
+  half_plot <- ggplot(data=subset(df, group != "0_0" & nktype==nkvar), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
     geom_pointrange() + 
     facet_wrap(~group) +
     theme_bw() + 

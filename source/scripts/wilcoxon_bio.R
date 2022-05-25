@@ -21,7 +21,7 @@ datafile <- "merged_bio.csv"
 outfile <- "wilcoxon_bio.csv"
 
 # columns that represent factors to be sorted by, not numbers
-fac_cols <- c("gen_REF", "gen_MUT")
+fac_cols <- c("gen_REF", "gen_MUT", "mut_stat")
 
 # ------------------------#
 #        Load file        #
