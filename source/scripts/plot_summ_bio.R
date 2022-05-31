@@ -11,7 +11,7 @@ proj_path <- "/home/acacia/Documents/research/project-rank-epistasis/"
 data_path <- paste(proj_path, "data/", sep="")
 fig_path <- paste(proj_path, "figs/", sep="")
 fig.width = 12
-fig.height = 8
+fig.height = 6
 
 # library load
 library(ggplot2)
@@ -27,18 +27,17 @@ datafile <- "summary_bio.csv"
 
 df <- read.csv(paste(data_path, datafile, sep=""))
 
-bio_plot <- ggplot(data=df, aes(x=gen_MUT, y=W)) + 
+bio_plot <- ggplot(data=df, aes(x=gen_MUT, y=W, color=mean.ep)) + 
   geom_point(size=3) 
 
-bio_plot_2 <- ggplot(data=df, aes(x=gen_MUT, y=mean.ep)) +
+bio_plot_2 <- ggplot(data=df, aes(x=gen_MUT, y=mean.ep, color=W)) + 
   geom_point(size=3) 
 
-# bio_plot <- ggplot(data=subset(df, nktype==nkvar), aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
-#     geom_pointrange() + 
-#     facet_wrap(~group) +
-#     theme_bw() + 
-#     xlab("\n Genome Position") + 
-#     ylab("W\n") + 
+# bio_plot <- ggplot(data=subset(df, nktype==nkvar), aes(x=gen_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=pos.K, fill=pos.K)) +
+#     geom_point() +
+#     theme_bw() +
+#     xlab("\n Genome Position") +
+#     ylab("W\n") +
 #     scale_color_viridis(discrete=TRUE)+
 #     scale_x_discrete(breaks=seq(0,99,10)) +
 #     theme(axis.title=element_text(size=14)) +
