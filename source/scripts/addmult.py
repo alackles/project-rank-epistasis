@@ -3,8 +3,6 @@
 import random
 import copy
 import csv
-import multiprocessing as mp
-from pathlib import Path
 
 def fitness_func(gen, result_sum=True):
     # avoid integer overflow problems; numpy's sum/prod functions default to int32 and are a pain to change
@@ -21,10 +19,11 @@ def fitness_func(gen, result_sum=True):
 
     return res_sum + res_prod if result_sum else res_sum * res_prod
 
-def mutants(gen, alleles, filehead=""):
+def mutants(gen, alleles, randseed=0):
     # Create single mutants for every number at every site
-    filelines = [filehead]
+    filelines = []
     mut_gen = copy.deepcopy(gen) # figure this out...
+    fitness_wt = fitness_func(mut_gen)
     for i, ival in enumerate(gen):
         pos_ref = i
         for allele_ref in alleles:           # pick which allele to mutate to
@@ -38,16 +37,11 @@ def mutants(gen, alleles, filehead=""):
                             mut_gen[j] = allele_mut
                             fitness_mut = fitness_func(mut_gen)
                             mut_gen[j] = jval
-                            line = [pos_ref, pos_mut, fitness_ref, fitness_mut, allele_ref, allele_mut]
+                            line = [randseed, pos_ref, pos_mut, fitness_wt, fitness_ref, fitness_mut, allele_ref, allele_mut]
                             filelines.append([str(x) for x in line])
                 mut_gen[i] = ival
     return filelines
 
-def make_reps(reppath, randseed=0):
-    repname = "SEED_" + str(randseed).rjust(2,'0') + "__addmult/"
-    path = reppath + repname
-    Path(path).mkdir(exist_ok=True, parents=True)
-    return path 
 
 def make_genome(n=50, randseed=0, minval=1, maxval=10):
     random.seed(randseed)
@@ -55,29 +49,26 @@ def make_genome(n=50, randseed=0, minval=1, maxval=10):
     alleles = list(range(minval, maxval+1))
     return genome, alleles
 
-def make_mutants(seed):
-    reppath = "../../data/reps/"
-    filename = "mutants.csv"
-    filehead = ["pos_REF","pos_MUT","score_REF","score_MUT","allele_REF","allele_MUT"]
-    
-    path = make_reps(reppath, randseed=seed)
-    filepath = path + filename
-    
-    genome, alleles = make_genome(randseed=seed)
-    filelines = mutants(genome, alleles, filehead=filehead)
-    
+def main():
+
+    num_reps = 100
+
+    dirpath = "../../data/"
+    filename = "merged_addmult.csv"
+
+    filepath = dirpath + filename
+
+    filehead = ["rep","pos_REF","pos_MUT","score_WT","score_REF","score_MUT","allele_REF","allele_MUT"]
+    filelines = [filehead]
+
+    for i in range(num_reps):
+        genome, alleles = make_genome(randseed=i)
+        filelines = filelines + mutants(genome, alleles, randseed=i)
+        print("Seed: ", i)
+
     with open(filepath, 'w') as f:
         write = csv.writer(f)
         write.writerows(filelines)
-
-
-def main():
-
-    n = 100
-
-    pool = mp.Pool()
-    pool.map(make_mutants, range(n))
-
 
 if __name__=="__main__":
     main()
