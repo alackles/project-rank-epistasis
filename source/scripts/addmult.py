@@ -43,7 +43,7 @@ def mutants(gen, alleles, randseed=0):
     return filelines
 
 
-def make_genome(n=50, randseed=0, minval=1, maxval=10):
+def make_genome(n=20, randseed=0, minval=1, maxval=4):
     random.seed(randseed)
     genome = [random.randint(minval, maxval) for _ in range(n)]
     alleles = list(range(minval, maxval+1))
