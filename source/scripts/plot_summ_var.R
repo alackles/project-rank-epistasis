@@ -35,7 +35,7 @@ df <- read.csv(paste(data_path, datafile, sep=""))
 # add positional k (for coloring)
 # sorry about this
 df <- df %>%
-  mutate(pos.K = if_else((nktype== 'half' & as.numeric(pos_MUT) < 50) | (nktype == 'merged' & as.numeric(pos_MUT) %% 2 == 1), ka, kb))
+  mutate(pos.K = if_else((nktype== 'half' & as.numeric(pos_MUT) < 50) | (nktype == 'merged' & as.numeric(pos_MUT) %% 2 == 0), ka, kb))
 
 # create color scale
 colscale <- viridis_pal(option="plasma")(17)
@@ -63,16 +63,19 @@ var_plot <- function(nkvar) {
     facet_grid(kb ~ ka) +
     theme_bw() + 
     xlab("\n Genome Position") + 
-    ylab("W\n") + 
+    ylab("Epistasis Detected (\u03c9) \n") + 
+    labs(color="Positional K",fill="Positional K") +
     scale_color_manual(values=levels(df$colorscale)) +
     scale_x_discrete(breaks=seq(0,99,10)) +
-    theme(axis.title=element_text(size=14)) +
-    theme(strip.text = element_text(size=14)) +
+    theme(legend.title = element_text(size=16)) +
+    theme(legend.text = element_text(size=12)) +
+    theme(axis.title=element_text(size=16)) +
+    theme(strip.text = element_text(size=16)) +
     theme(strip.background=element_rect(fill="white"))
 }
 
 half_plot <- var_plot("half")
 mixed_plot <- var_plot("merged")
 
-ggsave(plot=half_plot, filename=paste(fig_path, "summary_half.pdf", sep=""), width=fig.width, height=fig.height)
-ggsave(plot=mixed_plot, filename=paste(fig_path, "summary_mixed.pdf", sep=""), width=fig.width, height=fig.height)
+ggsave(plot=half_plot, filename=paste(fig_path, "summary_half.pdf", sep=""), width=fig.width, height=fig.height, device=cairo_pdf)
+ggsave(plot=mixed_plot, filename=paste(fig_path, "summary_mixed.pdf", sep=""), width=fig.width, height=fig.height, device=cairo_pdf)

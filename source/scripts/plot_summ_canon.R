@@ -50,11 +50,15 @@ plot <- ggplot(data=df, aes(x=pos_MUT, y=mean.W, ymin=lo.W, ymax=hi.W, color=k, 
   geom_pointrange() + 
   theme_bw() + 
   xlab("\n Genome Position") + 
-  ylab("W\n") + 
+  ylab("Epistasis Detected (\u03c9) \n") + 
+  labs(color="K",fill="K") +
   scale_color_manual(values=levels(df$colorscale)) +
   scale_x_discrete(breaks=seq(0,99,10)) +
-  theme(axis.title=element_text(size=14)) +
-  theme(strip.text = element_text(size=14)) +
+  theme(legend.title = element_text(size=16)) +
+  theme(legend.text = element_text(size=12)) +
+  theme(axis.title=element_text(size=16)) +
+  theme(strip.text = element_text(size=16)) +
   theme(strip.background=element_rect(fill="white"))
 
-ggsave(plot=plot, filename=paste(fig_path, "summary_canon.pdf", sep=""), width=fig.width, height=fig.height)
+
+ggsave(plot=plot, filename=paste(fig_path, "summary_canon.pdf", sep=""), width=fig.width, height=fig.height, device=cairo_pdf)

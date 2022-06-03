@@ -45,7 +45,7 @@ df <- left_join(df_re, df_eps) %>%
 summary.loc <- df %>%
   group_by(pos, metric) %>%
   summarise(mean.epistasis = mean(epistasis, na.rm=TRUE),
-            sd.epistasis = sd(epistasis),
+            sd.epistasis = sd(epistasis, na.rm=TRUE),
             n = n()) %>%
   mutate(se.epistasis = sd.epistasis/ sqrt(n),
          lo.epistasis = mean.epistasis - qt(1-(0.05/2), n - 1) * se.epistasis,
