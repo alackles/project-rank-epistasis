@@ -17,7 +17,7 @@ library(rstatix)
 
 # files to process
 datafile <- "merged_addmult.csv"
-outfile <- "beta_addmult.csv"
+outfile <- "eps_addmult.csv"
 
 # ------------------------#
 #        Load file        #

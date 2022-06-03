@@ -15,7 +15,7 @@ library(dplyr)
 
 # files to process
 datafile_re <- "wilcoxon_addmult.csv"
-datafile_eps <- "beta_addmult.csv"
+datafile_eps <- "eps_addmult.csv"
 outfile <- "summary_addmult.csv"
 
 # columns that represent factors to be sorted by, not numbers
