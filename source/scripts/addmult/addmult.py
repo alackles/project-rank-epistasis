@@ -53,7 +53,7 @@ def main():
 
     num_reps = 100
 
-    dirpath = "../../data/"
+    dirpath = "../../../data/"
     filename = "merged_addmult.csv"
 
     filepath = dirpath + filename

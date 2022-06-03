@@ -2,6 +2,5 @@ Order to run scripts
 
 - rep.py
 - repmerge
-- wilcoxon
-- summary
-- plot
+- wilcoxon_*
+- summary_*
